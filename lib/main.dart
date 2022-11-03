@@ -77,7 +77,7 @@ class MyHomePage2 extends StatefulWidget {
 }
 
 class _MyHomePage2State extends State<MyHomePage2> {
-  // late TextEditingController controller;
+  late TextEditingController controller;
   late Timer timer;
 
   @override

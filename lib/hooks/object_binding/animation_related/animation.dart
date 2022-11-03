@@ -10,35 +10,29 @@ class AnimationNoHook extends StatefulWidget {
 class AnimationNoHookState extends State<AnimationNoHook>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  late Animation colorAnimation;
-  late Animation sizeAnimation;
+  late Animation colorAnim;
+  late Animation sizeAnim;
 
   @override
   void initState() {
     super.initState();
 
-    // Defining controller with animation duration of two seconds
+    // Defining controller with animation having a duration of 2 seconds
     controller =
         AnimationController(vsync: this, duration: const Duration(seconds: 2));
 
     // Defining both color and size animations
-    colorAnimation =
-        ColorTween(begin: Colors.blue, end: Colors.yellow).animate(controller);
-    sizeAnimation = Tween<double>(begin: 100.0, end: 200.0).animate(controller);
+    colorAnim =
+        ColorTween(begin: Colors.red, end: Colors.purple).animate(controller);
+    sizeAnim = Tween<double>(begin: 75.5, end: 150).animate(controller);
 
-    // Rebuilding the screen when animation goes ahead
+    // Rebuild the screen when animation starts
     controller.addListener(() {
       setState(() {});
     });
 
-    // Repeat the animation after finish
+    // Starts and repeats the animation
     controller.repeat();
-
-    //For single time
-    //controller.forward()
-
-    //Reverses the animation instead of starting it again and repeats
-    // controller.repeat(reverse: true);
   }
 
   @override
@@ -54,10 +48,9 @@ class AnimationNoHookState extends State<AnimationNoHook>
         title: const Text("Animation No Hooks Demo"),
       ),
       body: Center(
-        child: Container(
-          height: sizeAnimation.value,
-          width: sizeAnimation.value,
-          color: colorAnimation.value,
+        child: CircleAvatar(
+          radius: sizeAnim.value,
+          backgroundColor: colorAnim.value,
         ),
       ),
     );
