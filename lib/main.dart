@@ -1,6 +1,7 @@
 import 'package:fbc_hooks_project/hooks/object_binding/animation_related/animation.dart';
 import 'package:fbc_hooks_project/hooks/object_binding/animation_related/animation_hooks.dart';
 import 'package:fbc_hooks_project/hooks/object_binding/dart_async/stream_no_hooks.dart';
+import 'package:fbc_hooks_project/hooks/primitives/use_effect_and_previous.dart';
 import 'package:flutter/material.dart';
 
 import 'hooks/object_binding/dart_async/stream_hooks.dart';
@@ -50,6 +51,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: ListView(
         children: [
+          const Text(
+            "Primitive and Misc",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 20),
+          MaterialButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const EffectPreviousHooks()),
+              );
+            },
+            child: const Text("Use Effect and Previous"),
+          ),
           const Text(
             "Dart: Async",
             style: TextStyle(
