@@ -9,7 +9,10 @@ class EffectPreviousHooks extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    // This describes the delay between color changes [useState]
     final delay = useState(1);
+
+    // This describes the value of the texts opacity [useState]
     final isHalfOpaque = useState(false);
     final color = Color.fromRGBO(
       Random().nextInt(255),
@@ -17,7 +20,11 @@ class EffectPreviousHooks extends HookWidget {
       Random().nextInt(255),
       1,
     );
+
+    // Holds the value of the color on the last rebuild
     final previousColor = usePrevious(color);
+
+    //
     useEffect(() {
       final timer = Timer.periodic(Duration(seconds: delay.value), (timer) {
         if (timer.tick.isEven) isHalfOpaque.value = !isHalfOpaque.value;

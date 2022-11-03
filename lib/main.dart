@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:fbc_hooks_project/hooks/object_binding/animation_related/animation.dart';
 import 'package:fbc_hooks_project/hooks/object_binding/animation_related/animation_hooks.dart';
 import 'package:fbc_hooks_project/hooks/object_binding/dart_async/stream_no_hooks.dart';
 import 'package:fbc_hooks_project/hooks/primitives/use_effect_and_previous.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import 'hooks/object_binding/dart_async/stream_hooks.dart';
 
@@ -21,157 +24,173 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  // final int _counter = 0;
-
-  // void _incrementCounter() {
-  //   Navigator.push(
-  //       context, MaterialPageRoute(builder: (context) => const MyHomePage2()));
-  // }
+class MyHomePage extends HookWidget {
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final controller = useTabController(initialLength: 3);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: const Text("Flutter Hooks Demo"),
       ),
-      body: ListView(
+      body: Column(
         children: [
-          const Text(
-            "Primitive and Misc",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+          TabBar(
+            controller: controller,
+            labelColor: Colors.black,
+            tabs: ["Primitive and Misc", "Dart: Async", "Animation Related"]
+                .reversed
+                .map((e) => Tab(text: e))
+                .toList(),
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: controller,
+              children: [
+                Column(
+                  children: [
+                    Expanded(
+                      child: _buildMaterial(
+                        context,
+                        "No Hooks Animation",
+                        const AnimationNoHook(),
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildMaterial(
+                        context,
+                        "Hooks Animation",
+                        AnimationHooks(),
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  children: [
+                    Expanded(
+                      child: _buildMaterial(
+                        context,
+                        "No Hook Stream",
+                        const StreamNoHooks(),
+                      ),
+                    ),
+                    Expanded(
+                      child: _buildMaterial(
+                        context,
+                        "Hooks Stream",
+                        const StreamHooks(),
+                      ),
+                    )
+                  ],
+                ),
+                _buildMaterial(context, "Use Effect and Previous",
+                    const EffectPreviousHooks()),
+              ],
             ),
           ),
-          const SizedBox(height: 20),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const EffectPreviousHooks()),
-              );
-            },
-            child: const Text("Use Effect and Previous"),
-          ),
-          const Text(
-            "Dart: Async",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const StreamNoHooks()));
-            },
-            child: const Text("Stream No Hooks"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const StreamHooks()));
-            },
-            child: const Text("Stream Hooks"),
-          ),
-          const Text(
-            "Animations",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 20),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const AnimationNoHook()));
-            },
-            child: const Text("Animation No Hooks"),
-          ),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => AnimationHooks()));
-            },
-            child: const Text("Animation Hooks"),
-          ),
+          // ListView(
+          //   children: [
+          //     const Text(
+          //       "",
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     const SizedBox(height: 20),
+          //     MaterialButton(
+          //       onPressed: () {
+          //         Navigator.push(
+          //           context,
+          //           MaterialPageRoute(
+          //               builder: (_) => const EffectPreviousHooks()),
+          //         );
+          //       },
+          //       child: const Text("Use Effect and Previous"),
+          //     ),
+          //     const Text(
+          //       "Dart: Async",
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     const SizedBox(height: 20),
+          //     MaterialButton(
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (_) => const StreamNoHooks()));
+          //       },
+          //       child: const Text("Stream No Hooks"),
+          //     ),
+          //     MaterialButton(
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (_) => const StreamHooks()));
+          //       },
+          //       child: const Text("Stream Hooks"),
+          //     ),
+          //     const Text(
+          //       "Animations",
+          //       style: TextStyle(
+          //         fontSize: 20,
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //     const SizedBox(height: 20),
+          //     MaterialButton(
+          //       onPressed: () {
+          //         Navigator.push(
+          //             context,
+          //             MaterialPageRoute(
+          //                 builder: (_) => const AnimationNoHook()));
+          //       },
+          //       child: const Text("Animation No Hooks"),
+          //     ),
+          //     MaterialButton(
+          //       onPressed: () {
+          //         Navigator.push(context,
+          //             MaterialPageRoute(builder: (_) => AnimationHooks()));
+          //       },
+          //       child: const Text("Animation Hooks"),
+          //     ),
+          //   ],
+          // ),
         ],
       ),
     );
   }
+
+  InkWell _buildMaterial(BuildContext context, String label, Widget page) {
+    final context = useContext();
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) => page));
+      },
+      child: Container(
+        color: Color.fromRGBO(
+          Random().nextInt(255),
+          Random().nextInt(255),
+          Random().nextInt(255),
+          1,
+        ),
+        child: Center(
+          child: Text(
+            label,
+            style: const TextStyle(
+              fontSize: 25,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
-
-// class MyHomePage2 extends StatefulWidget {
-//   const MyHomePage2({Key? key}) : super(key: key);
-
-//   @override
-//   State<MyHomePage2> createState() => _MyHomePage2State();
-// }
-
-// class _MyHomePage2State extends State<MyHomePage2> {
-//   late TextEditingController controller;
-//   late Timer timer;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-//       print("Here ${timer.tick}");
-//     });
-//   }
-
-//   @override
-//   void dispose() {
-//     timer.cancel();
-//     // controller.removeListener(() {});
-//     // controller.dispose();
-//     super.dispose();
-//   }
-
-//   void _incrementCounter() {}
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.red,
-//         title: const Text("Second Page"),
-//       ),
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: const <Widget>[
-//             Text(
-//               'You have pushed the button this many times:',
-//             ),
-//             TextField(
-//                 // controller: controller,
-//                 )
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         tooltip: 'Increment',
-//         child: const Icon(Icons.add),
-//       ),
-//     );
-//   }
-// }
