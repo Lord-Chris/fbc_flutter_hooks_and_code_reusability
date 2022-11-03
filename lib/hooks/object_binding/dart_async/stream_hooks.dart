@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:fbc_hooks_project/hooks/object_binding/dart_async/stream_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -6,22 +9,34 @@ class StreamHooks extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = useStreamController();
+    final stream = useMemoized(randomNumbersStream, []);
+    final snapshot = useStream(stream);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Stream No Hooks"),
+        title: const Text("Stream Hooks"),
       ),
-      body: StreamBuilder(
-        stream: controller.stream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return Center(
-              child: Text(snapshot.data.toString()),
-            );
-          }
-          return const SizedBox();
-        },
-      ),
+      body: () {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (snapshot.connectionState == ConnectionState.active) {
+          return Container(
+            color: Color.fromRGBO(0, 0, Random().nextInt(255), 1),
+            child: Center(
+              child: Text(
+                snapshot.data.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 30,
+                ),
+              ),
+            ),
+          );
+        }
+        return const SizedBox();
+      }(),
     );
   }
 }

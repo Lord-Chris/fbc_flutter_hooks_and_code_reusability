@@ -12,11 +12,13 @@ class AnimationHooks extends HookWidget {
 
   void useMyAnimation() {
     // Defining a 2-seconds duration controller animation
-    controller = useAnimationController(duration: const Duration(seconds: 2));
+    controller = useAnimationController(
+      duration: const Duration(seconds: 2),
+    );
 
     // Defining both color and size animations
     colorAnimation = useAnimation(
-      ColorTween(begin: Colors.blue, end: Colors.yellow).animate(controller),
+      ColorTween(begin: Colors.red, end: Colors.purple).animate(controller),
     );
     sizeAnimation = useAnimation(
       Tween<double>(begin: 75.5, end: 150.0).animate(controller),
