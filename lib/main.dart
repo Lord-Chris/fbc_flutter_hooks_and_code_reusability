@@ -57,14 +57,12 @@ class MyHomePage extends HookWidget {
                   children: [
                     Expanded(
                       child: _buildMaterial(
-                        context,
                         "No Hooks Animation",
                         const AnimationNoHook(),
                       ),
                     ),
                     Expanded(
                       child: _buildMaterial(
-                        context,
                         "Hooks Animation",
                         AnimationHooks(),
                       ),
@@ -75,99 +73,31 @@ class MyHomePage extends HookWidget {
                   children: [
                     Expanded(
                       child: _buildMaterial(
-                        context,
                         "No Hook Stream",
                         const StreamNoHooks(),
                       ),
                     ),
                     Expanded(
                       child: _buildMaterial(
-                        context,
                         "Hooks Stream",
                         const StreamHooks(),
                       ),
                     )
                   ],
                 ),
-                _buildMaterial(context, "Use Effect and Previous",
-                    const EffectPreviousHooks()),
+                _buildMaterial(
+                  "Use Effect and Previous",
+                  const EffectPreviousHooks(),
+                ),
               ],
             ),
           ),
-          // ListView(
-          //   children: [
-          //     const Text(
-          //       "",
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //     const SizedBox(height: 20),
-          //     MaterialButton(
-          //       onPressed: () {
-          //         Navigator.push(
-          //           context,
-          //           MaterialPageRoute(
-          //               builder: (_) => const EffectPreviousHooks()),
-          //         );
-          //       },
-          //       child: const Text("Use Effect and Previous"),
-          //     ),
-          //     const Text(
-          //       "Dart: Async",
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //     const SizedBox(height: 20),
-          //     MaterialButton(
-          //       onPressed: () {
-          //         Navigator.push(context,
-          //             MaterialPageRoute(builder: (_) => const StreamNoHooks()));
-          //       },
-          //       child: const Text("Stream No Hooks"),
-          //     ),
-          //     MaterialButton(
-          //       onPressed: () {
-          //         Navigator.push(context,
-          //             MaterialPageRoute(builder: (_) => const StreamHooks()));
-          //       },
-          //       child: const Text("Stream Hooks"),
-          //     ),
-          //     const Text(
-          //       "Animations",
-          //       style: TextStyle(
-          //         fontSize: 20,
-          //         fontWeight: FontWeight.bold,
-          //       ),
-          //     ),
-          //     const SizedBox(height: 20),
-          //     MaterialButton(
-          //       onPressed: () {
-          //         Navigator.push(
-          //             context,
-          //             MaterialPageRoute(
-          //                 builder: (_) => const AnimationNoHook()));
-          //       },
-          //       child: const Text("Animation No Hooks"),
-          //     ),
-          //     MaterialButton(
-          //       onPressed: () {
-          //         Navigator.push(context,
-          //             MaterialPageRoute(builder: (_) => AnimationHooks()));
-          //       },
-          //       child: const Text("Animation Hooks"),
-          //     ),
-          //   ],
-          // ),
         ],
       ),
     );
   }
 
-  InkWell _buildMaterial(BuildContext context, String label, Widget page) {
+  InkWell _buildMaterial(String label, Widget page) {
     final context = useContext();
     return InkWell(
       onTap: () {
